@@ -41,7 +41,7 @@
         <!-- RIGHT ICONS -->
         <div class="hidden lg:flex lg:items-center lg:justify-end xl:col-span-2">
           <router-link
-            :to="{ name: 'cart' }"
+            :to="{ name: 'Cart' }"
             class="flex space-x-3 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 rounded-sm"
           >
             <span>${{ $store.getters.cartPrice }}</span>
