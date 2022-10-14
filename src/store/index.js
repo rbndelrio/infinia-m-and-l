@@ -46,7 +46,7 @@ const store = new Vuex.Store({
     // Page content cache
     page: {
       products: {
-        order: [],
+        data: [],
       },
     },
   },
@@ -56,7 +56,7 @@ const store = new Vuex.Store({
      * Cart
      */
     cartProducts: (state) => {
-      return state.items.map(({ id, qty }) => {
+      return state.items?.map?.(({ id, qty }) => {
         const product = state.product[id]
         return {
           id: product.id,
@@ -68,7 +68,7 @@ const store = new Vuex.Store({
     },
 
     cartPrice: (_state, getters) => {
-      return getters.cartProducts.reduce((total, product) => {
+      return getters.cartProducts?.reduce?.((total, product) => {
         return total + product.price * product.qty
       }, 0)
     }
@@ -134,7 +134,15 @@ const store = new Vuex.Store({
     },
     setSearchFilters: (state, filters = {}) => {
       state.search.filter = {...defaultFilter(), ...filters}
-    }
+    },
+
+
+    /**
+     * Search + Filter
+     */
+    setPageData: (state, { page, ...payload }) => {
+      if (page && payload) state.page[page] = payload
+    },
   },
 
   actions: {
@@ -150,8 +158,17 @@ const store = new Vuex.Store({
     },
     fetchProducts: async ({ commit }, params) => {
       const response = await $get('products', params)
-      if (response && Array.isArray(response)) {
-        response.forEach(product => commit('setPartialProduct', product))
+      if (response?.products && Array.isArray(response?.products)) {
+        response.products.forEach(product => {
+          commit('setPartialProduct', product)
+        })
+
+        if (!params) {
+          commit('setPageData', {
+            page: 'products',
+            data: response.products.map(product => product.id)
+          })
+        }
       }
     },
 
