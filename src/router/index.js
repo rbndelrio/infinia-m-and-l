@@ -26,23 +26,23 @@ const routes = [
     ]
   },
   {
-    path: "/product",
-    children: [
-      {
-        path: ':id',
-        name: 'Product',
-        children: [
-          {
-            path: '',
-            name: 'ProductPage',
-            component: () => import("../views/Product.vue"),
-          }
-        ]
-      }
-    ],
+    path: "/product/:id",
+    name: 'Product',
+    component: () => import("../views/Product.vue"),
+    // children: [
+    //   {
+        // children: [
+        //   {
+        //     path: '',
+        //     name: 'ProductPage',
+        //     component: () => import("../views/Product.vue"),
+        //   }
+        // ]
+    //   }
+    // ],
 
     // Redirect when no product is specified
-    redirect: { name: 'Products' },
+    // redirect: { name: 'Products' },
   },
   {
     path: '/cart',
