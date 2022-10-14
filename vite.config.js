@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
-import { createVuePlugin as vue } from "vite-plugin-vue2";
+
+import vue from "@vitejs/plugin-vue2";
 import path from "path";
 import { fileURLToPath } from "url";
 
