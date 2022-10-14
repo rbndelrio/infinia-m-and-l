@@ -1,0 +1,1 @@
+// This will be used for global constants
