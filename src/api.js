@@ -4,13 +4,11 @@
 
 export const get = async (path = '', params = '', options = {}) => {
   let res = {}, status = 500, error = false;
-
   try {
     res = await fetch(
-      `${API_HOST}/${path.replace(/^\//, '')}`,
+      `${API_HOST}/${path.replace(/^\//, '')}?${new URLSearchParams(params).toString()}`,
       {
         method: 'GET',
-        body: new URLSearchParams(params),
         ...options,
       }
     )
