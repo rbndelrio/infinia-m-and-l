@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import { $get } from '../api';
 
 Vue.use(Vuex);
 
@@ -46,6 +47,41 @@ const store = new Vuex.Store({
 
   mutations: {
     /**
+     * Product
+     */
+    setPartialProduct: (state, product) => {
+      if (!product.id) return
+
+      // Merge partial data if it already exists
+      if (state.product[product.id]) {
+        if (!state.product[product.id].partial) return
+
+        state.product[product.id] = {
+          ...state.product[product.id],
+          data: {
+            ...state.product[product.id].data,
+            ...product,
+          }
+        }
+
+      // Otherwise just set the data and mark it as partial
+      } else {
+        state.product[product.id] = {
+          partial: true,
+          data: product
+        }
+      }
+    },
+    setFullProduct: (state, product) => {
+      if (!product.id) return false
+      state.product[product.id] = {
+        partial: false,
+        data: product
+      };
+    },
+
+
+    /**
      * Cart
      */
     setCartItem: (state, payload = {}) => {
@@ -62,6 +98,24 @@ const store = new Vuex.Store({
   },
 
   actions: {
+    /**
+     * Product
+     */
+    fetchProduct: async ({ commit, state }, id) => {
+      // If it's not already cached
+      if (!state.product[id]?.partial === false) {
+        const product = await $get(`products/${id}`)
+        commit('setFullProduct', product)
+      }
+    },
+    fetchProducts: async ({ commit }, params) => {
+      const response = await $get('products', params)
+      if (response && Array.isArray(response)) {
+        response.forEach(product => commit('setPartialProduct', product))
+      }
+    },
+
+
     /**
      * Cart
      */
