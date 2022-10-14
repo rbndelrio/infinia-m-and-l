@@ -56,8 +56,8 @@ const store = new Vuex.Store({
      * Cart
      */
     cartProducts: (state) => {
-      return state.items?.map?.(({ id, qty }) => {
-        const product = state.product[id]
+      return state.cart.items?.map?.(({ id, qty }) => {
+        const product = state.product[id]?.data || {}
         return {
           id: product.id,
           title: product.title,
@@ -68,9 +68,10 @@ const store = new Vuex.Store({
     },
 
     cartPrice: (_state, getters) => {
-      return getters.cartProducts?.reduce?.((total, product) => {
+      const price = getters.cartProducts?.reduce?.((total, product) => {
         return total + product.price * product.qty
       }, 0)
+      return price
     }
   },
 
@@ -115,7 +116,7 @@ const store = new Vuex.Store({
      */
     setCartItem: (state, payload = {}) => {
       let idx = state.cart.items.findIndex(item => item.id === payload.id)
-      if (idx) state.cart.items[idx] = payload
+      if (idx > -1) state.cart.items[idx] = payload
       else state.cart.items.push({ id: null, qty: 1, ...payload})
     },
     setCartItems: (state, { items = [] }) => {
@@ -150,11 +151,14 @@ const store = new Vuex.Store({
      * Product
      */
     fetchProduct: async ({ commit, state }, id) => {
+      console.log(id)
       // If it's not already cached
-      if (!state.product[id]?.partial === false) {
+      if (!state.product[~~id] || !!state.product[~~id]?.partial) {
         const product = await $get(`products/${id}`)
         commit('setFullProduct', product)
       }
+
+      return state.product[~~id]?.data || {}
     },
     fetchProducts: async ({ commit }, params) => {
       const response = await $get('products', params || { limit: 100 })
@@ -177,24 +181,28 @@ const store = new Vuex.Store({
      * Cart
      */
     addToCart: ({ commit, state }, productObjOrId) => {
-      const  product = Number.isInteger(productObjOrId)
-        ? { id: product, qty: 1 }
+      const product = Number.isInteger(productObjOrId)
+        ? { id: productObjOrId, qty: 1 }
         : productObjOrId
 
-      const item = state.cart.items.find(item => item.id === id)
+      const item = state.cart.items.find(item => item.id === product.id)
 
       if (item) commit('setCartItem', {
         id: product.id,
         qty: item.qty + Math.min(product.qty, 1)
       })
       else commit('setCartItem', product)
+
+      console.log('added to cart', product)
     },
     removeFromCart: ({ commit, state }, productObjOrId) => {
       const  product = Number.isInteger(productObjOrId)
-        ? { id: product, qty: 1 }
+        ? { id: productObjOrId, qty: 1 }
         : productObjOrId
       const cartItems = [...state.items]
       commit(setCartItems, cartItems.filter(item => item.id !== product.id))
+
+      console.log('removed from cart', cartItems)
     },
     async checkout ({ commit, state }, products) {
       const savedCartItems = [...state.items]
