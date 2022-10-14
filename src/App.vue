@@ -2,7 +2,7 @@
   <main>
     <Navigation />
     <transition>
-      <router-view class="w-full" />
+      <router-view class="w-full pt-[70px]" />
     </transition>
     <transition appear>
       <Footer />

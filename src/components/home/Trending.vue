@@ -4,7 +4,7 @@
       <div class="md:flex md:items-center md:justify-between">
         <h2 id="favorites-heading" class="text-2xl font-bold tracking-tight text-gray-900">Trending Products</h2>
         <a href="#" class="hidden text-sm font-medium text-red-600 hover:text-red-500 md:block">
-          Shop the collection
+          Shop trending
           <span aria-hidden="true"> &rarr;</span>
         </a>
       </div>
@@ -27,7 +27,7 @@
 
       <div class="mt-8 text-sm md:hidden">
         <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
-          Shop the collection
+          Shop trending
           <span aria-hidden="true"> &rarr;</span>
         </a>
       </div>
