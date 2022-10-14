@@ -1,10 +1,11 @@
 <template>
   <main>
     <Navigation />
-    <router-view />
+      <router-view class="w-full" />
+    <Footer />
   </main>
 </template>
 
 <script setup>
-import Navigation from './layout/Navigation.vue';
+import Footer from './layout/Footer.vue';
 </script>
