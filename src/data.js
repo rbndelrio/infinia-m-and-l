@@ -2,18 +2,20 @@
 
 export const COLLECTIONS = {
   mens: {
-    title: "Men's",
+    slug: 'mens',
+    name: "Men's",
     categories: [
       'mens-shirts',
       'mens-shoes',
       'mens-watches',
       'tops',
     ],
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-04-collection-01.jpg',
-    imageAlt: 'Woman wearing a comfortable cotton t-shirt.',
+    imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-04-collection-02.jpg',
+    imageAlt: 'Man wearing a comfortable and casual cotton t-shirt.',
   },
   womens: {
-    title: "Women's",
+    slug: 'womens',
+    name: "Women's",
     categories: [
       'womens-dresses',
       'womens-shoes',
@@ -22,11 +24,12 @@ export const COLLECTIONS = {
       'womens-jewellery',
       'tops'
     ],
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-04-collection-02.jpg',
-    imageAlt: 'Man wearing a comfortable and casual cotton t-shirt.',
+    imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-04-collection-01.jpg',
+    imageAlt: 'Woman wearing a comfortable cotton t-shirt.',
   },
   accessories: {
-    title: "Accessories",
+    slug: 'accessories',
+    name: "Accessories",
     categories: [
       'smartphones',
       'laptops',

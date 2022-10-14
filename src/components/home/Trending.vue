@@ -3,7 +3,7 @@
     <div class="mx-auto max-w-7xl py-24 px-4 sm:px-6 sm:py-32 lg:px-8 lg:pt-32">
       <div class="md:flex md:items-center md:justify-between">
         <h2 id="favorites-heading" class="text-2xl font-bold tracking-tight text-gray-900">Trending Products</h2>
-        <a href="#" class="hidden text-sm font-medium text-indigo-600 hover:text-indigo-500 md:block">
+        <a href="#" class="hidden text-sm font-medium text-red-600 hover:text-red-500 md:block">
           Shop the collection
           <span aria-hidden="true"> &rarr;</span>
         </a>

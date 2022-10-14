@@ -1,6 +1,6 @@
 <template>
   <!-- Hero section -->
-  <div class="relative">
+  <div class="relative pt-[70px]">
     <!-- Background image and overlap -->
     <div aria-hidden="true" class="absolute inset-0 hidden sm:flex sm:flex-col">
       <div class="relative w-full flex-1 bg-gray-800">
@@ -31,7 +31,10 @@
           <slot name="subtitle" />
         </div>
         <div class="mt-4 sm:mt-6">
-          <a href="#" class="inline-block rounded-md border border-transparent bg-red-600 py-3 px-8 font-medium text-white hover:bg-red-700">Shop Collection</a>
+          <RouterLink
+            :to="{ name: 'Products' }"
+            class="inline-block rounded-md border border-transparent bg-red-600 py-3 px-8 font-medium text-white hover:bg-red-700"
+          >Shop Our Look</RouterLink>
         </div>
       </div>
     </div>
@@ -39,22 +42,25 @@
     <section aria-labelledby="collection-heading" class="relative -mt-96 sm:mt-0">
       <h2 id="collection-heading" class="sr-only">Collections</h2>
       <div class="mx-auto grid max-w-md grid-cols-1 gap-y-6 px-4 sm:max-w-7xl sm:grid-cols-3 sm:gap-y-0 sm:gap-x-6 sm:px-6 lg:gap-x-8 lg:px-8">
-        <div v-for="category in categories" :key="category.name" class="group relative h-96 rounded-lg bg-white shadow-xl sm:aspect-w-4 sm:aspect-h-5 sm:h-auto">
+        <div v-for="collection in collections" :key="collection.name" class="group relative h-96 rounded-lg bg-white shadow-xl sm:aspect-w-4 sm:aspect-h-5 sm:h-auto">
           <div>
             <div aria-hidden="true" class="absolute inset-0 overflow-hidden rounded-lg">
               <div class="absolute inset-0 overflow-hidden group-hover:opacity-75">
-                <img :src="category.imageSrc" :alt="category.imageAlt" class="h-full w-full object-cover object-center" />
+                <img :src="collection.imageSrc" :alt="collection.imageAlt" class="h-full w-full object-cover object-center" />
               </div>
               <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-50" />
             </div>
             <div class="absolute inset-0 flex items-end rounded-lg p-6">
               <div>
-                <p aria-hidden="true" class="text-sm text-white">Shop this category</p>
+                <p aria-hidden="true" class="text-sm text-white">Shop this collection</p>
                 <h3 class="mt-1 font-semibold text-white">
-                  <a :href="category.href">
+                  <router-link :to="{
+                    name: 'ProductCollection',
+                    params: { collection: collection.slug }
+                  }">
                     <span class="absolute inset-0" />
-                    {{ category.name }}
-                  </a>
+                    {{ collection.name }}
+                  </router-link>
                 </h3>
               </div>
             </div>
@@ -67,7 +73,7 @@
 
 <script setup>
 defineProps({
-  categories: { type: Array, default: [] },
+  collections: { type: Array, default: [] },
   title: String,
   route: [String, Object]
 })
