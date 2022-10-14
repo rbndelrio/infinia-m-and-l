@@ -1,41 +1,55 @@
 <template>
   <!-- When the mobile menu is open, add `overflow-hidden` to the `body` element to prevent double scrollbars -->
-  <header :class="[open ? 'fixed inset-0 z-40 overflow-y-auto' : '', 'bg-white shadow-sm lg:static lg:overflow-y-visible']">
+  <header :class="[
+    open ? 'fixed inset-0 z-40 overflow-y-auto' : '',
+    'fixed lg:top-0 z-40 w-full bg-white shadow-sm lg:overflow-y-visible']"
+  >
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="relative flex justify-between lg:gap-8 xl:grid xl:grid-cols-12">
         <div class="flex md:absolute md:inset-y-0 md:left-0 lg:static xl:col-span-2">
           <div class="flex flex-shrink-0 items-center">
-            <a href="#">
-              <span class="block h-8 px-1 -ml-1 text-center text-2xl italic font-serif text-red-500">M&L</span>
-            </a>
+            <RouterLink :to="{ name: 'Home' }" class="focus:outline-none text-red-500 hover:text-gray-800 focus:text-gray-800">
+              <span class="block h-8 px-1 -ml-1 text-center text-2xl italic font-serif">M&L</span>
+            </RouterLink>
           </div>
         </div>
-        <div class="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-6">
+        <div class="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-8">
+          <!-- SEARCH BAR -->
           <div class="flex items-center px-6 py-4 md:mx-auto md:max-w-3xl lg:mx-0 lg:max-w-none xl:px-0">
             <div class="w-full">
               <label for="search" class="sr-only">Search</label>
               <div class="relative">
-                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                  <div MagnifyingGlassIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
-                </div>
-                <input id="search" name="search" class="block w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:border-indigo-500 focus:text-gray-900 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm" placeholder="Search" type="search" />
+                <RouterLink ref="searchBtn" :to="{ name: 'Products', query: { s: search } }" class="absolute inset-y-0 left-0 flex items-center pl-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 text-gray-400">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                  </svg>
+                </RouterLink>
+                <input v-model="search" @keyup.enter="onEnter" id="search" name="search" class="block w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:border-red-500 focus:text-gray-900 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-red-500 sm:text-sm" placeholder="Search" type="search" />
               </div>
             </div>
           </div>
         </div>
         <div class="flex items-center md:absolute md:inset-y-0 md:right-0 lg:hidden">
           <!-- Mobile menu button -->
-          <button @click="open = !open" class="-mx-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+          <button @click="open = !open" class="-mx-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-red-500">
             <span class="sr-only">Open menu</span>
             <div Bars3Icon v-if="!open" class="block h-6 w-6" aria-hidden="true" />
             <div XMarkIcon v-else class="block h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        <div class="hidden lg:flex lg:items-center lg:justify-end xl:col-span-4">
-          <a href="#" class="ml-5 flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+
+        <!-- RIGHT ICONS -->
+        <div class="hidden lg:flex lg:items-center lg:justify-end xl:col-span-2">
+          <router-link :to="{ name: 'cart' }" class="focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 rounded-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+            </svg>
+          </router-link>
+
+          <!-- <a href="#" class="ml-5 flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
             <span class="sr-only">View notifications</span>
             <div BellIcon class="h-6 w-6" aria-hidden="true" />
-          </a>
+          </a> -->
 
           <!-- Profile dropdown -->
           <!-- <Menu as="div" class="relative ml-5 flex-shrink-0">
@@ -59,29 +73,31 @@
       </div>
     </div>
 
-    <nav class="lg:hidden" aria-label="Global">
-      <div class="mx-auto max-w-3xl space-y-1 px-2 pt-2 pb-3 sm:px-4">
-        <a v-for="item in navigation" :key="item.name" :href="item.href" :aria-current="item.current ? 'page' : undefined" :class="[item.current ? 'bg-gray-100 text-gray-900' : 'hover:bg-gray-50', 'block rounded-md py-2 px-3 text-base font-medium']">{{ item.name }}</a>
-      </div>
-      <div class="border-t border-gray-200 pt-4 pb-3">
-        <div class="mx-auto flex max-w-3xl items-center px-4 sm:px-6">
-          <div class="flex-shrink-0">
-            <img class="h-10 w-10 rounded-full" :src="user.imageUrl" alt="" />
-          </div>
-          <div class="ml-3">
-            <div class="text-base font-medium text-gray-800">{{ user.name }}</div>
-            <div class="text-sm font-medium text-gray-500">{{ user.email }}</div>
-          </div>
-          <button type="button" class="ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-            <span class="sr-only">View notifications</span>
-            <div BellIcon class="h-6 w-6" aria-hidden="true" />
-          </button>
+    <transition>
+      <nav class="lg:hidden" aria-label="Global" v-if="open">
+        <div class="mx-auto max-w-3xl space-y-1 px-2 pt-2 pb-3 sm:px-4">
+          <a v-for="item in navigation" :key="item.name" :href="item.href" :aria-current="item.current ? 'page' : undefined" :class="[item.current ? 'bg-gray-100 text-gray-900' : 'hover:bg-gray-50', 'block rounded-md py-2 px-3 text-base font-medium']">{{ item.name }}</a>
         </div>
-        <div class="mx-auto mt-3 max-w-3xl space-y-1 px-2 sm:px-4">
-          <a v-for="item in userNavigation" :key="item.name" :href="item.href" class="block rounded-md py-2 px-3 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900">{{ item.name }}</a>
+        <div class="border-t border-gray-200 pt-4 pb-3">
+          <div class="mx-auto flex max-w-3xl items-center px-4 sm:px-6">
+            <div class="flex-shrink-0">
+              <img class="h-10 w-10 rounded-full" :src="user.imageUrl" alt="" />
+            </div>
+            <div class="ml-3">
+              <div class="text-base font-medium text-gray-800">{{ user.name }}</div>
+              <div class="text-sm font-medium text-gray-500">{{ user.email }}</div>
+            </div>
+            <button type="button" class="ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+              <span class="sr-only">View notifications</span>
+              <div BellIcon class="h-6 w-6" aria-hidden="true" />
+            </button>
+          </div>
+          <div class="mx-auto mt-3 max-w-3xl space-y-1 px-2 sm:px-4">
+            <a v-for="item in userNavigation" :key="item.name" :href="item.href" class="block rounded-md py-2 px-3 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900">{{ item.name }}</a>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </transition>
   </header>
 </template>
 
@@ -89,8 +105,13 @@
 // import { PopoverPanel } from '@headlessui/vue';
 // import { MagnifyingGlassIcon } from '@heroicons/vue/20/solid';
 // import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline';
-
+// const router = useRouter()
+const searchBtn = ref(null)
 const open = ref(false)
+const search = ref('')
+
+// can't figure out how to access vue router in the composition api without Vue 3 + Router 4.x...
+const onEnter = () => searchBtn.value?.$el?.click?.()
 
 const user = {
   name: 'Chelsea Hagon',
