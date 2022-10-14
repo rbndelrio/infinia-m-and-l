@@ -59,9 +59,10 @@ const store = new Vuex.Store({
       return state.cart.items?.map?.(({ id, qty }) => {
         const product = state.product[id]?.data || {}
         return {
-          id: product.id,
-          title: product.title,
-          price: product.price,
+          ...product,
+          // id: product.id,
+          // title: product.title,
+          // price: product.price,
           qty,
         }
       })
@@ -199,13 +200,13 @@ const store = new Vuex.Store({
       const  product = Number.isInteger(productObjOrId)
         ? { id: productObjOrId, qty: 1 }
         : productObjOrId
-      const cartItems = [...state.items]
-      commit(setCartItems, cartItems.filter(item => item.id !== product.id))
+      const cartItems = [...state.cart.items]
+      commit('setCartItems', cartItems.filter(item => item.id !== product.id))
 
       console.log('removed from cart', cartItems)
     },
     async checkout ({ commit, state }, products) {
-      const savedCartItems = [...state.items]
+      const savedCartItems = [...state.cart.items]
       commit('setCartStatus', null)
       // empty cart
       commit('setCartItems', { items: [] })
