@@ -4,6 +4,14 @@ import { $get } from '../api';
 
 Vue.use(Vuex);
 
+const defaultFilter = () => ({
+  price_max: null,
+  price_min: null,
+  rating_min: null,
+  brand: [],
+  category: [],
+})
+
 const store = new Vuex.Store({
   state: {
     // User login and browser state
@@ -94,6 +102,17 @@ const store = new Vuex.Store({
     },
     setCartStatus: (state, status = null) => {
       state.cart.status = status
+    },
+
+
+    /**
+     * Search + Filter
+     */
+    setSearchQuery: (state, query = '') => {
+      state.search.query = query || ''
+    },
+    setSearchFilters: (state, filters = {}) => {
+      state.search.filter = {...defaultFilter(), ...filters}
     }
   },
 
@@ -137,6 +156,18 @@ const store = new Vuex.Store({
         commit('setCartItems', { items: savedCartItems })
       }
     },
+
+
+    /**
+     * Search + Filter
+     */
+    searchProducts: ({ commit }, { query = '', filter}) => {
+      commit('setSearchQuery', query)
+      if (filter) commit('setSearchFilter', filter)
+    },
+    filterProducts: (state, filters = {}) => {
+      commit('setSearchFilter', filter)
+    }
   },
 });
 
