@@ -1,8 +1,11 @@
 <template>
-  <div>
-    <transition>
-      <Grid :products="filteredProducts" />
-    </transition>
+  <div class="bg-white">
+    <div class="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+      <h1 class="text-2xl font-bold tracking-tight text-gray-900">{{ title || '' }}</h1>
+      <transition>
+        <Grid :products="filteredProducts" />
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -18,7 +21,7 @@ export default {
     Grid
   },
   beforeMount() {
-    const ctx = this
+    // const ctx = this
     this.$store.dispatch('fetchProducts')
   },
   computed: {
@@ -30,14 +33,26 @@ export default {
     routeCollection() { return this.$route.params.collection },
     categories() { return this.routeCollection ? collectionCats(this.routeCollection) : [] },
     routeQuery() { return this.$route.query.s || '' },
+    title() {
+      switch (this.$route.name) {
+        case 'Products': return 'Products';
+        case 'ProductCollection': return (COLLECTIONS[this.routeCollection]?.name || '') + ' Collection';
+        default: return ''
+      }
+    },
 
     filteredProducts() {
       return this.productData
+        // Remove missing content just in case
         .filter(Boolean)
+
+        // Category filter
         .filter(product => this.categories.length
           ? this.categories.includes(product.category)
           : true
         )
+
+        // Search filter
         .filter(({ title, description, brand }) => this.routeQuery
           ? `${title} ${brand} ${description}`.toLowerCase().includes(this.routeQuery.toLowerCase())
           : true
