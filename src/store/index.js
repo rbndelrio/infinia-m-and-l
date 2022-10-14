@@ -157,7 +157,7 @@ const store = new Vuex.Store({
       }
     },
     fetchProducts: async ({ commit }, params) => {
-      const response = await $get('products', params)
+      const response = await $get('products', params || { limit: 100 })
       if (response?.products && Array.isArray(response?.products)) {
         response.products.forEach(product => {
           commit('setPartialProduct', product)
