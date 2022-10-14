@@ -51,7 +51,28 @@ const store = new Vuex.Store({
     },
   },
 
-  getters: {},
+  getters: {
+    /**
+     * Cart
+     */
+    cartProducts: (state) => {
+      return state.items.map(({ id, qty }) => {
+        const product = state.product[id]
+        return {
+          id: product.id,
+          title: product.title,
+          price: product.price,
+          qty,
+        }
+      })
+    },
+
+    cartPrice: (_state, getters) => {
+      return getters.cartProducts.reduce((total, product) => {
+        return total + product.price * product.qty
+      }, 0)
+    }
+  },
 
   mutations: {
     /**
@@ -138,8 +159,25 @@ const store = new Vuex.Store({
     /**
      * Cart
      */
-    addToCart: ({ commit, state }, payload) => {
-      commit('addCartItem', payload)
+    addToCart: ({ commit, state }, productObjOrId) => {
+      const  product = Number.isInteger(productObjOrId)
+        ? { id: product, qty: 1 }
+        : productObjOrId
+
+      const item = state.cart.items.find(item => item.id === id)
+
+      if (item) commit('setCartItem', {
+        id: product.id,
+        qty: item.qty + Math.min(product.qty, 1)
+      })
+      else commit('setCartItem', product)
+    },
+    removeFromCart: ({ commit, state }, productObjOrId) => {
+      const  product = Number.isInteger(productObjOrId)
+        ? { id: product, qty: 1 }
+        : productObjOrId
+      const cartItems = [...state.items]
+      commit(setCartItems, cartItems.filter(item => item.id !== product.id))
     },
     async checkout ({ commit, state }, products) {
       const savedCartItems = [...state.items]
