@@ -4,7 +4,9 @@
     <transition>
       <router-view class="w-full" />
     </transition>
-    <Footer />
+    <transition appear>
+      <Footer />
+    </transition>
   </main>
 </template>
 

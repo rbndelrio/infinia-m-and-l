@@ -6,7 +6,7 @@
         <div class="grid grid-cols-1 md:grid-flow-col md:auto-rows-min md:grid-cols-12 md:gap-x-8 md:gap-y-16">
           <!-- Image section -->
           <div class="col-span-1 md:col-span-2 lg:col-start-1 lg:row-start-1">
-            <img src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" class="h-8 w-auto" />
+            <img src="https://tailwindui.com/img/logos/mark.svg?color=red&shade=600" alt="" class="h-8 w-auto" />
           </div>
 
           <!-- Sitemap sections -->
@@ -45,9 +45,9 @@
             <p class="mt-6 text-sm text-gray-500">The latest deals and savings, sent to your inbox weekly.</p>
             <form class="mt-2 flex sm:max-w-md">
               <label for="email-address" class="sr-only">Email address</label>
-              <input id="email-address" type="text" autocomplete="email" required="" class="w-full min-w-0 appearance-none rounded-md border border-gray-300 bg-white py-2 px-4 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500" />
+              <input id="email-address" type="text" autocomplete="email" required="" class="w-full min-w-0 appearance-none rounded-md border border-gray-300 bg-white py-2 px-4 text-base text-gray-900 placeholder-gray-500 shadow-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500" />
               <div class="ml-4 flex-shrink-0">
-                <button type="submit" class="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Sign up</button>
+                <button type="submit" class="flex w-full items-center justify-center rounded-md border border-transparent bg-red-600 py-2 px-4 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">Sign up</button>
               </div>
             </form>
           </div>
